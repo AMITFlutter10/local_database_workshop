@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_database_workshop/note_cubit/notes_cubit.dart';
 import 'package:local_database_workshop/view/screens/home_page.dart';
 import 'package:sizer/sizer.dart';
 
@@ -15,13 +17,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Sizer(
       builder: (BuildContext context, Orientation orientation, DeviceType deviceType) {
-      return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_)=> NotesCubit()..createDataBase()
+          ),
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home:  HomePage()
         ),
-        home: const HomePage()
       );
       }
     );
